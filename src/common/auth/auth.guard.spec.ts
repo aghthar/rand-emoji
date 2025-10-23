@@ -18,6 +18,7 @@ describe('AuthGuard', () => {
             }
             return null;
           },
+          headers: { 'x-api-key': 'BondJamesBond' },
         }),
       }),
     });
@@ -29,6 +30,7 @@ describe('AuthGuard', () => {
       switchToHttp: () => ({
         getRequest: () => ({
           header: () => undefined,
+          headers: { 'x-api-key': undefined },
         }),
       }),
     });
@@ -40,6 +42,7 @@ describe('AuthGuard', () => {
       switchToHttp: () => ({
         getRequest: () => ({
           header: () => 'invalid-api-key',
+          headers: { 'x-api-key': 'invalid-api-key' },
         }),
       }),
     });
