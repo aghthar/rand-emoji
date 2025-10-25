@@ -1,8 +1,27 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
 export class EmojiValidationPipe implements PipeTransform {
-  transform(value: any, metadata: ArgumentMetadata) {
+  transform(value: any) {
+    if (!value) {
+      return;
+    }
+    if (isNaN(value)) {
+      throw new BadRequestException(
+        `Validation failed: ${value} is not a number`,
+      );
+    }
+    if (isNaN(value) || value < 0) {
+      throw new BadRequestException(
+        `Validation failed: ${value} is not a valid emoji index`,
+      );
+    }
+    if (isNaN(value) || value < 0 || value > 4) {
+      throw new BadRequestException(
+        `Validation failed: ${value} is out of range`,
+      );
+    }
+    console.log(`EmojiValidationPipe: validated index ${value}`);
     return value;
   }
 }
