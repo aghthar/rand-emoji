@@ -22,6 +22,6 @@ export class EmojiValidationPipe implements PipeTransform {
       );
     }
     console.log(`EmojiValidationPipe: validated index ${value}`);
-    return value;
+    return Number(value);
   }
 }

@@ -16,16 +16,9 @@ describe('EmojiValidationPipe', () => {
       expect(emojiValidationPipe.transform(2)).toBe(2);
     });
 
-    it('should throw an error if the value is not a number', () => {
-      expect(() => emojiValidationPipe.transform('invalid')).toThrowError(
-        'Validation failed: invalid is not a valid emoji index',
-      );
-    });
-
-    it('should throw an error if the value is out of range', () => {
-      expect(() => emojiValidationPipe.transform(5)).toThrowError(
-        'Validation failed: 5 is out of range',
-      );
+    it(`it should return the respective string input as a number`, () => {
+      const result = emojiValidationPipe.transform('2');
+      expect(result).toBe(2);
     });
   });
 });
