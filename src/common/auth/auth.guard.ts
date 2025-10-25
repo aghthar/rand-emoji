@@ -6,6 +6,8 @@ export class AuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    throw new Error(`error in auth`);
+
     console.log(`AuthGuard invoked`);
     console.log(`Checking API key...`);
     const request = context.switchToHttp().getRequest();
