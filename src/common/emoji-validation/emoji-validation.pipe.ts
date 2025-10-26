@@ -16,7 +16,7 @@ export class EmojiValidationPipe implements PipeTransform {
         `Validation failed: ${value} is not a valid emoji index`,
       );
     }
-    if (isNaN(value) || value < 0 || value > 4) {
+    if (isNaN(value) || value < 0 || value > 23) {
       throw new BadRequestException(
         `Validation failed: ${value} is out of range`,
       );

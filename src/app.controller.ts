@@ -9,8 +9,8 @@ export class AppController {
 
   @Get()
   getEmoji(
-    @Req() request: express.Request,
-    @Query(`index`, EmojiValidationPipe) index?: number,
+    @Req() request: express.Request, // use nestjs built-in decorator `@Req()` to access the incoming http request
+    @Query(`index`, EmojiValidationPipe) index?: number, // we applied the pipe here
   ) {
     return {
       emoji: this.appService.getEmoji(index),
