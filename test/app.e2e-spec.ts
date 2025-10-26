@@ -3,10 +3,12 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
+import { AppService } from '../src/app.service';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
   let server: any;
+  let appService: AppService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -14,11 +16,12 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    appService = moduleFixture.get<AppService>(AppService);
     server = app.getHttpServer();
     await app.init();
   });
 
-  describe(`/ GET`, () => {
+  describe('/ GET', () => {
     // when valid api key return 200
     it('/ (GET) with valid API key', () => {
       return request(server)
@@ -39,14 +42,28 @@ describe('AppController (e2e)', () => {
 
     // / GET with valid api key should return a data object with random emoji
     it('/ (GET) with valid API key should return a data object with random emoji', () => {
+      const emojis = appService.getEmojis();
       return request(server)
         .get('/')
         .set('x-api-key', 'BondJamesBond')
         .expect(200)
         .expect((res) => {
+          expect(emojis).toContain(res.body.data.emoji);
+          expect(res.body.data.browser).toBe('Unknown');
+        });
+    });
+
+    // /?index=0 GET with valid api key should return a data object with the first emoji
+    it('/?index=0 (GET) with valid API key should return a data object with the first emoji', () => {
+      const emojis = appService.getEmojis();
+      return request(server)
+        .get('/?index=0')
+        .set('x-api-key', 'BondJamesBond')
+        .expect(200)
+        .expect((res) => {
           expect(res.body).toEqual({
             data: {
-              emoji: expect.any(String),
+              emoji: emojis[0],
               browser: 'Unknown',
             },
           });
